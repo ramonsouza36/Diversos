@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Validador CPF</title>
+    <link rel="stylesheet" href="validadorCPF.css">
+  </head>
+  <body>
+    <h1>Validador de CPF</h1>
+    <p>Coloque somente os números do CPF</p>
+    <form method="get" id="colocaCPF">
+        <input type="text" placeholder="" id="meu-input" />
+        <input type="submit" id="meu-submit" value="Validar" />
+    </form>
+  </body>
+  <script>
+  //recebe o cpf digitado no input
+  var cpf=document.getElementById("meu-input").value;
+  //contador para verificar o primeiro dígito
+  var cont1=10;
+  //variável que guarda a multiplicação
+  var total=0;
+  //variável para verificar se é válido o cpf
+  var eValido=false;
+  //soma dos digitos
+  var soma = 0;
+//calculando o primeiro dígito
+  //soma dos 9 primeiros dígitos do CPF
+      for(i=0;i<(cpf.length-2);i++){
+        soma+=cpf[i]*cont1;
+        cont1--;
+      }
+//Divisão do total por 11 para obtermos o resto da divisão
+      total=(soma*10)%11;
+// se for menor que dois o dígito tem de ser zero
+      if(total<2){
+        if(cpf[9]==0){
+          eValido=true;
+        }
+      } else {
+        //subtraímos 11 do resto da divisão e o resultado tem de ser o penúltimo dígito do CPF
+        total=11-(soma%11);
+        if(cpf[9]==total){
+          eValido=true;
+        }
+      }
+  //Reinicia contador e o total
+      cont1=11;
+      total=0;
+      soma = 0;
+      //soma dos 10 primeiros dígitos do CPF
+          for(i=0;i<(cpf.length-1);i++){
+            soma+=cpf[i]*cont1;
+            cont1--;
+          }
+      //Divisão do total por 11 para obtermos o resto da divisão
+          total=(soma*10)%11;
+          //alert(total);
+      // se for menor que dois o dígito tem de ser zero, se não for o CPF é inválido
+          if(total<2){
+            if(cpf[10]==0){
+              eValido=true;
+            } else{
+                eValido=false;
+              }
+          } else {
+            //subtraímos 11 do resto da divisão e tem de ser o último dígito do CPF. se não for o CPF é inválido
+            total=11-(soma%11);
+            if(cpf[10]==total){
+              eValido=true;
+            }
+            else{
+                eValido=false;
+              }
+          }
+//Exibe na tela se o CPF é valido
+  function mostrarValidade(){
+    if (eValido==true){
+      alert ("É válido");
+    } else {
+      alert("Não é válido");
+    }
+  }
+
+// Evento que é executado ao clicar no botão de enviar
+document.getElementById("meu-submit").onclick = function(e) {
+    mostrarValidade();
+    e.preventDefault();
+}
+
+  </script>
+  <footer>Made by Ramon Riuller</footer>
+</html>
